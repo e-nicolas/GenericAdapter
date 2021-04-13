@@ -17,7 +17,7 @@ import br.com.enicolas.adapterdelegate.databinding.FragmentFirstBinding
 import br.com.enicolas.genericadapter.AdapterHolderType
 import br.com.enicolas.genericadapter.adapter.GenericRecyclerAdapter
 import br.com.enicolas.genericadapter.adapter.GenericRecylerAdapterDelegate
-import br.com.enicolas.genericadapter.adapter.Snapshot
+import br.com.enicolas.genericadapter.diffable.Snapshot
 
 class FirstFragment : Fragment() {
 

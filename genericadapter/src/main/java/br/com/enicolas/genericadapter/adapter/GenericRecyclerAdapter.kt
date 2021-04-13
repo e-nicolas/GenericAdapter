@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import br.com.enicolas.genericadapter.AdapterHolderType
+import br.com.enicolas.genericadapter.diffable.Snapshot
 
 open class GenericRecyclerAdapter(snapshot: Snapshot? = null) : RecyclerView.Adapter<BaseCell>() {
 

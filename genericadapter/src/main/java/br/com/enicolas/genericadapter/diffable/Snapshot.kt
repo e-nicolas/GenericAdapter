@@ -1,7 +1,7 @@
-package br.com.enicolas.genericadapter.adapter
+package br.com.enicolas.genericadapter.diffable
 
 import androidx.recyclerview.widget.DiffUtil
-import br.com.enicolas.genericadapter.diffable.DiffCallback
+import br.com.enicolas.genericadapter.adapter.GenericRecyclerAdapter
 
 class Snapshot {
     var adapter: GenericRecyclerAdapter? = null

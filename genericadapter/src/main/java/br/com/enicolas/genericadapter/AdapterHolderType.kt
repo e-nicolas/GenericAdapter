@@ -1,6 +1,7 @@
 package br.com.enicolas.genericadapter
 
 import androidx.viewbinding.ViewBinding
+import br.com.enicolas.genericadapter.adapter.BaseCell
 
 /**
  * Class used to store the cell reuseIdentifier,

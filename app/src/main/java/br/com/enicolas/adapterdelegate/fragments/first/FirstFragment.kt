@@ -14,8 +14,8 @@ import br.com.enicolas.adapterdelegate.databinding.CellFirstBinding
 import br.com.enicolas.adapterdelegate.databinding.CellSecondBinding
 import br.com.enicolas.adapterdelegate.databinding.FragmentFirstBinding
 import br.com.enicolas.genericadapter.AdapterHolderType
-import br.com.enicolas.genericadapter.GenericRecyclerAdapter
-import br.com.enicolas.genericadapter.GenericRecylerAdapterDelegate
+import br.com.enicolas.genericadapter.adapter.GenericRecyclerAdapter
+import br.com.enicolas.genericadapter.adapter.GenericRecylerAdapterDelegate
 
 class FirstFragment : Fragment() {
 

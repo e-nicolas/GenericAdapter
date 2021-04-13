@@ -1,7 +1,7 @@
 package br.com.enicolas.adapterdelegate.fragments.first
 
 import androidx.lifecycle.ViewModel
-import br.com.enicolas.genericadapter.GenericRecyclerAdapter
+import br.com.enicolas.genericadapter.adapter.GenericRecyclerAdapter
 
 class FirstViewModel: ViewModel() {
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
@@ -24,15 +25,16 @@ class SecondFragment : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
     private val binding: FragmentSecondBinding
-    get() {
-        return _binding!!
-    }
+        get() {
+            return _binding!!
+        }
 
     private val viewModel: SecondViewModel by viewModels()
+    private val genericSections = GenericRecyclerSections()
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSecondBinding.inflate(inflater)
         return _binding?.root
@@ -41,14 +43,22 @@ class SecondFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupSearchView()
     }
 
     /**
      * Setup recycler view
      */
     private fun setupRecyclerView() {
-        viewModel.genericSections.delegate = recyclerDelegate
-        binding.recyclerView.adapter = viewModel.genericSections.adapter
+        genericSections.delegate = recyclerDelegate
+        genericSections.attachRecyclerView(binding.recyclerView)
+    }
+
+    /**
+     * Setup SearchView
+     */
+    private fun setupSearchView() {
+        binding.searchView.setOnQueryTextListener(searchViewListener)
     }
 
     /**
@@ -68,7 +78,7 @@ class SecondFragment : Fragment() {
             val sectionModel = viewModel.sections[indexPath.section]
             val list = sectionModel.list[indexPath.row]
             val text = getString(R.string.itemString, list.toString())
-            when(indexPath.section) {
+            when (indexPath.section) {
                 0 -> {
                     (cell as? FirstCell)?.binding?.textView?.text = text
                 }
@@ -79,18 +89,18 @@ class SecondFragment : Fragment() {
         }
 
         override fun registerCellAt(indexPath: IndexPath): AdapterHolderType {
-            return when(indexPath.section) {
+            return when (indexPath.section) {
                 0 -> {
                     AdapterHolderType(
                         viewBinding = CellFirstBinding::class.java,
-                        clazz =  FirstCell::class.java,
+                        clazz = FirstCell::class.java,
                         reuseIdentifier = 0
                     )
                 }
                 else -> {
                     AdapterHolderType(
                         viewBinding = CellSecondBinding::class.java,
-                        clazz =  SecondCell::class.java,
+                        clazz = SecondCell::class.java,
                         reuseIdentifier = 1
                     )
                 }
@@ -100,7 +110,7 @@ class SecondFragment : Fragment() {
         override fun registerHeaderForSection(section: Int): AdapterHolderType {
             return AdapterHolderType(
                 viewBinding = CellHeaderBinding::class.java,
-                clazz =  HeaderCell::class.java,
+                clazz = HeaderCell::class.java,
                 reuseIdentifier = 2
             )
         }
@@ -115,6 +125,25 @@ class SecondFragment : Fragment() {
                 "Section: ${indexPath.section}, Row: ${indexPath.row}",
                 Toast.LENGTH_SHORT
             ).show()
+        }
+    }
+
+    /**
+     * SearchView Listener
+     */
+    private val searchViewListener = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            viewModel.sections.forEach { sectionModel ->
+                sectionModel.list = sectionModel.list.filter {
+                    it.toString() == newText
+                }
+            }
+            genericSections.reloadData()
+            return true
         }
     }
 }

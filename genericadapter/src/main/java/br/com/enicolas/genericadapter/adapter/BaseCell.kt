@@ -1,11 +1,11 @@
-package br.com.enicolas.genericadapter
+package br.com.enicolas.genericadapter.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
 /**
- * The base cell used to create the View Holders of GenericRecyclerAdapter
+ * The base cell used to create the View Holders of [GenericRecyclerAdapter]
  */
 open class BaseCell private constructor(view: View?, viewBinding: ViewBinding?): RecyclerView.ViewHolder(view ?: viewBinding!!.root) {
 

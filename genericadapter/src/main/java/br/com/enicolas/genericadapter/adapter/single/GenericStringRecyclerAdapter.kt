@@ -1,9 +1,9 @@
-package br.com.enicolas.genericadapter.single
+package br.com.enicolas.genericadapter.adapter.single
 
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
-import br.com.enicolas.genericadapter.BaseCell
-import br.com.enicolas.genericadapter.GenericRecyclerAdapter
+import br.com.enicolas.genericadapter.adapter.BaseCell
+import br.com.enicolas.genericadapter.adapter.GenericRecyclerAdapter
 import medcel.produto.expandido.android.core.recyclerview.adapter.single.IStringCell
 
 /**
@@ -11,10 +11,10 @@ import medcel.produto.expandido.android.core.recyclerview.adapter.single.IString
  * OBS: You need to implement the IStringCell on your BaseCell
  */
 class GenericStringRecyclerAdapter(
-    private val cellType: Class<out BaseCell>,
-    private val viewBindingClazz: Class<out ViewBinding>,
-    private val list: List<String>,
-    private val onClickAction: (String) -> Unit
+	private val cellType: Class<out BaseCell>,
+	private val viewBindingClazz: Class<out ViewBinding>,
+	private val list: List<String>,
+	private val onClickAction: (String) -> Unit
 ): GenericRecyclerAdapter() {
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseCell {

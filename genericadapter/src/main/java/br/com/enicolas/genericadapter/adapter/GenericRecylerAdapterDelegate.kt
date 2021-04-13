@@ -32,9 +32,7 @@ interface GenericRecylerAdapterDelegate {
     /**
      * Number of rows in recyclerView
      */
-    fun numberOfRows(adapter: GenericRecyclerAdapter): Int {
-        return 0
-    }
+    fun numberOfRows(adapter: GenericRecyclerAdapter): Int
 
     fun registerHeaderFor(adapter: GenericRecyclerAdapter): AdapterHolderType? {
         return null

@@ -48,7 +48,7 @@ class FirstFragment : Fragment() {
     private fun setupRecyclerView() {
         viewModel.adapter.delegate = recyclerDelegate
         binding.recyclerView.adapter = viewModel.adapter
-        viewModel.adapter.items = viewModel.list
+        viewModel.adapter.snapshot = viewModel.list
     }
 
     /**
@@ -89,15 +89,15 @@ class FirstFragment : Fragment() {
 
         }
 
-//        override fun numberOfRows(adapter: GenericRecyclerAdapter): Int {
-//            return viewModel.list.size
-//        }
+        override fun numberOfRows(adapter: GenericRecyclerAdapter): Int {
+            return viewModel.list.size
+        }
 
         override fun registerHeaderFor(adapter: GenericRecyclerAdapter): AdapterHolderType? {
             return null
         }
 
-        override fun viewForHeaderAt(section: Int, cell: RecyclerView.ViewHolder, adapter: GenericRecyclerAdapter) {
+        override fun viewForHeaderAt(position: Int, cell: RecyclerView.ViewHolder, adapter: GenericRecyclerAdapter) {
 
         }
     }
@@ -112,11 +112,11 @@ class FirstFragment : Fragment() {
 
         override fun onQueryTextChange(newText: String?): Boolean {
             var list = viewModel.originalList.filter {
-                it.toString() == newText
+                it.toString().contains(newText ?: "")
             }.toMutableList()
             if(newText.isNullOrBlank()) { list = viewModel.originalList }
             viewModel.list = list
-            viewModel.adapter.items = viewModel.list
+            viewModel.adapter.snapshot = viewModel.list
             return true
         }
     }

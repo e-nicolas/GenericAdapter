@@ -1,6 +1,7 @@
 package br.com.enicolas.genericadapter.sections
 
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.com.enicolas.genericadapter.AdapterHolderType
 import br.com.enicolas.genericadapter.IndexPath
@@ -23,7 +24,7 @@ open class GenericRecyclerSections {
 
 	fun reloadData() {
 		adapter = ConcatAdapter(getAdapters())
-		recyclerView?.get()?.adapter = adapter
+        recyclerView?.get()?.adapter = adapter
 	}
 
 	fun attachRecyclerView(recyclerView: RecyclerView) {
@@ -92,6 +93,12 @@ open class GenericRecyclerSections {
 		) {
             delegate?.viewForHeaderInSection(section = adapter.tag, header = cell)
         }
+    }
 
+    /**
+     * Returns a [GenericRecyclerAdapter] based on section position
+     */
+    fun adapterForPosition(position: Int): GenericRecyclerAdapter {
+        return adapter.adapters[position] as GenericRecyclerAdapter
     }
 }

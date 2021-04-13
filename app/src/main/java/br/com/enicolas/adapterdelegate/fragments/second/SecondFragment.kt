@@ -17,7 +17,8 @@ import br.com.enicolas.adapterdelegate.databinding.CellFirstBinding
 import br.com.enicolas.adapterdelegate.databinding.CellHeaderBinding
 import br.com.enicolas.adapterdelegate.databinding.CellSecondBinding
 import br.com.enicolas.adapterdelegate.databinding.FragmentSecondBinding
-import br.com.enicolas.genericadapter.*
+import br.com.enicolas.genericadapter.AdapterHolderType
+import br.com.enicolas.genericadapter.IndexPath
 import br.com.enicolas.genericadapter.sections.GenericRecyclerSections
 import br.com.enicolas.genericadapter.sections.SectionDelegate
 
@@ -137,11 +138,19 @@ class SecondFragment : Fragment() {
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            viewModel.sections.forEach { sectionModel ->
-                sectionModel.list = sectionModel.list.filter {
-                    it.toString() == newText
-                }
-            }
+            viewModel.sections = viewModel.originalSections.mapIndexed { index, section ->
+                val originalList = section.list
+                val filteredList =
+                    if(newText.isNullOrBlank())
+                        section.list
+                    else
+                        originalList.filter { it.toString() == newText }
+
+                SectionModel(
+                    title = section.title,
+                    list = filteredList
+                )
+            }.toMutableList()
             genericSections.reloadData()
             return true
         }

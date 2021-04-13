@@ -43,7 +43,6 @@ open class GenericRecyclerSections {
             genericAdapter.tag = section
             genericAdapter.delegate = adapterDelegate
 			adapters.add(genericAdapter)
-//            adapter.addAdapter(genericAdapter)
         }
 		return adapters
     }

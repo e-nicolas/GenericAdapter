@@ -1,7 +1,6 @@
 package br.com.enicolas.adapterdelegate.fragments.second
 
 import androidx.lifecycle.ViewModel
-import br.com.enicolas.genericadapter.sections.GenericRecyclerSections
 
 class SecondViewModel: ViewModel() {
     var sections = mutableListOf(

@@ -1,7 +1,6 @@
 package br.com.enicolas.genericadapter.sections
 
 import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.com.enicolas.genericadapter.AdapterHolderType
 import br.com.enicolas.genericadapter.IndexPath
@@ -11,29 +10,45 @@ import java.lang.ref.WeakReference
 
 open class GenericRecyclerSections {
 
+    /**
+     * Delegate
+     */
     var delegate: SectionDelegate? = null
         set(value) {
             field = value
 			reloadData()
         }
 
+    /**
+     * Concat Adapter
+     */
     var adapter = ConcatAdapter()
         private set
 
+    /**
+     * RecyclerView weak reference
+     */
 	private var recyclerView: WeakReference<RecyclerView>? = null
 
+    /**
+     * Recreate the [ConcatAdapter] and set the recyclerView adapter to the new one
+     */
 	fun reloadData() {
 		adapter = ConcatAdapter(getAdapters())
         recyclerView?.get()?.adapter = adapter
 	}
 
+    /**
+     * Attach a recyclerView reference to this class
+     */
 	fun attachRecyclerView(recyclerView: RecyclerView) {
 		this.recyclerView = WeakReference(recyclerView)
 		reloadData()
 	}
 
     /**
-     * Setup adapters
+     * Create x number of [GenericRecyclerAdapter] based on
+     * numberOfSections delegate
      */
     private fun getAdapters(): List<GenericRecyclerAdapter> {
 		val adapters = arrayListOf<GenericRecyclerAdapter>()
@@ -48,7 +63,7 @@ open class GenericRecyclerSections {
     }
 
     /**
-     * Adapter delegate
+     * Adapter delegate [GenericRecylerAdapterDelegate]
      */
     private val adapterDelegate = object : GenericRecylerAdapterDelegate {
         override fun cellForPosition(

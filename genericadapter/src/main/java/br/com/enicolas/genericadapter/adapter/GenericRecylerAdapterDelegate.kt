@@ -9,7 +9,7 @@ import br.com.enicolas.genericadapter.AdapterHolderType
 interface GenericRecylerAdapterDelegate {
 
     /**
-     * Retrieves the cell at the position. This method is ready to render and setup your cell
+     * Retrieves the cell at this position. This method is ready to render and setup your cell
      */
     fun cellForPosition(
 		adapter: GenericRecyclerAdapter,
@@ -34,10 +34,16 @@ interface GenericRecylerAdapterDelegate {
      */
     fun numberOfRows(adapter: GenericRecyclerAdapter): Int
 
+    /**
+     * Defines the Type and the Layout of your header at this position
+     */
     fun registerHeaderFor(adapter: GenericRecyclerAdapter): AdapterHolderType? {
         return null
     }
 
+    /**
+     * When the header is ready to reuse
+     */
     fun viewForHeaderAt(
 		position: Int,
 		cell: RecyclerView.ViewHolder,

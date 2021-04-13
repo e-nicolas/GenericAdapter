@@ -17,6 +17,7 @@ import br.com.enicolas.adapterdelegate.databinding.FragmentFirstBinding
 import br.com.enicolas.genericadapter.AdapterHolderType
 import br.com.enicolas.genericadapter.adapter.GenericRecyclerAdapter
 import br.com.enicolas.genericadapter.adapter.GenericRecylerAdapterDelegate
+import br.com.enicolas.genericadapter.adapter.Snapshot
 
 class FirstFragment : Fragment() {
 
@@ -27,6 +28,8 @@ class FirstFragment : Fragment() {
     }
 
     private val viewModel: FirstViewModel by viewModels()
+
+    private val adapter = GenericRecyclerAdapter(snapshot = Snapshot())
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -46,9 +49,9 @@ class FirstFragment : Fragment() {
      * Setup recycler view
      */
     private fun setupRecyclerView() {
-        viewModel.adapter.delegate = recyclerDelegate
-        binding.recyclerView.adapter = viewModel.adapter
-        viewModel.adapter.snapshot = viewModel.list
+        adapter.delegate = recyclerDelegate
+        binding.recyclerView.adapter = adapter
+        adapter.snapshot?.updateSnapshot(viewModel.list)
     }
 
     /**
@@ -116,7 +119,7 @@ class FirstFragment : Fragment() {
             }.toMutableList()
             if(newText.isNullOrBlank()) { list = viewModel.originalList }
             viewModel.list = list
-            viewModel.adapter.snapshot = viewModel.list
+            adapter.snapshot?.updateSnapshot(viewModel.list)
             return true
         }
     }

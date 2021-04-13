@@ -7,11 +7,17 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import br.com.enicolas.genericadapter.AdapterHolderType
 
-open class GenericRecyclerAdapter : RecyclerView.Adapter<BaseCell>() {
+open class GenericRecyclerAdapter(snapshot: Snapshot? = null) : RecyclerView.Adapter<BaseCell>() {
 
     /**
      * Variables
      */
+    var snapshot: Snapshot? = null
+    set(value) {
+        field = value
+        snapshot?.adapter = this
+    }
+
     private var _selectedItem = RecyclerView.NO_POSITION
     val selectedItem: Int
         get() {
@@ -25,6 +31,13 @@ open class GenericRecyclerAdapter : RecyclerView.Adapter<BaseCell>() {
      * Delegate
      */
     var delegate: GenericRecylerAdapterDelegate? = null
+
+    /**
+     * Init
+     */
+    init {
+        this.snapshot = snapshot
+    }
 
     /**
      * When the view of cell will inflate

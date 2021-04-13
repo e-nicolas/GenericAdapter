@@ -6,6 +6,7 @@ import br.com.enicolas.genericadapter.AdapterHolderType
 import br.com.enicolas.genericadapter.IndexPath
 import br.com.enicolas.genericadapter.adapter.GenericRecyclerAdapter
 import br.com.enicolas.genericadapter.adapter.GenericRecylerAdapterDelegate
+import br.com.enicolas.genericadapter.diffable.Snapshot
 import java.lang.ref.WeakReference
 
 open class GenericRecyclerSections {

@@ -8,14 +8,14 @@ class Snapshot {
     private var snapshot: List<Any> = listOf()
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> updateSnapshot(value: List<T>) {
+    fun updateSnapshot(value: List<Any>) {
         adapter?.let { adapter ->
             val diffCallback = DiffCallback(snapshot, value)
             val result = DiffUtil.calculateDiff(diffCallback)
-            snapshot = value as List<Any>
+            snapshot = value
             result.dispatchUpdatesTo(adapter)
         } ?: run {
-            snapshot = value as List<Any>
+            snapshot = value
         }
     }
 }

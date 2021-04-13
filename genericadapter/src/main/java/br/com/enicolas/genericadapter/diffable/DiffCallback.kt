@@ -2,7 +2,7 @@ package br.com.enicolas.genericadapter.diffable
 
 import androidx.recyclerview.widget.DiffUtil
 
-class DiffCallback<T>(private val oldList: List<T>, private val newList: List<T>) : DiffUtil.Callback() {
+class DiffCallback(private val oldList: List<Any>, private val newList: List<Any>) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldList.size
 

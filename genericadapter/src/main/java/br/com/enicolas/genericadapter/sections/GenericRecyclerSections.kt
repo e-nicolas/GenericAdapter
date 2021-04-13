@@ -7,7 +7,6 @@ import br.com.enicolas.genericadapter.IndexPath
 import br.com.enicolas.genericadapter.adapter.GenericRecyclerAdapter
 import br.com.enicolas.genericadapter.adapter.GenericRecylerAdapterDelegate
 import br.com.enicolas.genericadapter.diffable.Snapshot
-import java.lang.ref.WeakReference
 
 open class GenericRecyclerSections {
 
@@ -15,10 +14,6 @@ open class GenericRecyclerSections {
      * Delegate
      */
     var delegate: SectionDelegate? = null
-        set(value) {
-            field = value
-			reloadData()
-        }
 
     /**
      * Concat Adapter
@@ -27,40 +22,41 @@ open class GenericRecyclerSections {
         private set
 
     /**
-     * RecyclerView weak reference
-     */
-	private var recyclerView: WeakReference<RecyclerView>? = null
-
-    /**
      * Recreate the [ConcatAdapter] and set the recyclerView adapter to the new one
      */
-	fun reloadData() {
-		adapter = ConcatAdapter(getAdapters())
-        recyclerView?.get()?.adapter = adapter
-	}
+    fun reloadData() {
+        removeAllAdapters()
+        createAdapters()
+    }
 
     /**
-     * Attach a recyclerView reference to this class
+     * Remove all adapters from [ConcatAdapter]
      */
-	fun attachRecyclerView(recyclerView: RecyclerView) {
-		this.recyclerView = WeakReference(recyclerView)
-		reloadData()
-	}
+    private fun removeAllAdapters() {
+        adapter.adapters.forEach {
+            adapter.removeAdapter(it)
+        }
+    }
 
     /**
      * Create x number of [GenericRecyclerAdapter] based on
      * numberOfSections delegate
      */
-    private fun getAdapters(): List<GenericRecyclerAdapter> {
-		val adapters = arrayListOf<GenericRecyclerAdapter>()
+    private fun createAdapters() {
         val numberOfSections = delegate?.numberOfSections() ?: 1
         for (section in 0 until numberOfSections) {
-            val genericAdapter = GenericRecyclerAdapter()
-            genericAdapter.tag = section
-            genericAdapter.delegate = adapterDelegate
-			adapters.add(genericAdapter)
+            adapter.addAdapter(createAdapterFor(section = section))
         }
-		return adapters
+    }
+
+    /**
+     * Create a [GenericRecyclerAdapter] based on section
+     */
+    private fun createAdapterFor(section: Int): GenericRecyclerAdapter {
+        val genericAdapter = GenericRecyclerAdapter(Snapshot())
+        genericAdapter.tag = section
+        genericAdapter.delegate = adapterDelegate
+        return genericAdapter
     }
 
     /**

@@ -52,7 +52,8 @@ class SecondFragment : Fragment() {
      */
     private fun setupRecyclerView() {
         genericSections.delegate = recyclerDelegate
-        genericSections.attachRecyclerView(binding.recyclerView)
+        binding.recyclerView.adapter = genericSections.adapter
+        genericSections.reloadData()
     }
 
     /**
@@ -150,7 +151,7 @@ class SecondFragment : Fragment() {
                     title = section.title,
                     list = filteredList
                 )
-            }.toMutableList()
+            }.filter { it.list.isNotEmpty() }.toMutableList()
             genericSections.reloadData()
             return true
         }

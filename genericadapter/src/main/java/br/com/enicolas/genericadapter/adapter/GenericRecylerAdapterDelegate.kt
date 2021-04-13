@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.enicolas.genericadapter.AdapterHolderType
 
 /**
- * Interface to handle the recyclerview state inside GenericRecyclerViewAdapter
+ * Interface to handle the recyclerview state inside [GenericRecyclerAdapter]
  */
 interface GenericRecylerAdapterDelegate {
 

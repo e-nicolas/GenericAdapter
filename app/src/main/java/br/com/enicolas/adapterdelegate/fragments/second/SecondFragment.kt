@@ -138,7 +138,7 @@ class SecondFragment : Fragment() {
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            viewModel.sections = viewModel.originalSections.mapIndexed { index, section ->
+            viewModel.sections = viewModel.originalSections.map { section ->
                 val originalList = section.list
                 val filteredList =
                     if(newText.isNullOrBlank())

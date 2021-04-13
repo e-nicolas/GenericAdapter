@@ -18,7 +18,7 @@ open class GenericRecyclerAdapter : RecyclerView.Adapter<BaseCell>() {
             return _selectedItem
         }
 
-    private var cellTypes = arrayListOf<AdapterHolderType>()
+    protected var cellTypes = arrayListOf<AdapterHolderType>()
     var tag: Int = 0
 
     /**
@@ -111,7 +111,7 @@ open class GenericRecyclerAdapter : RecyclerView.Adapter<BaseCell>() {
     /**
      * THe header position sum
      */
-    private fun getIndexOffset(): Int {
+    protected fun getIndexOffset(): Int {
         return if (hasHeader()) 1 else 0
     }
 

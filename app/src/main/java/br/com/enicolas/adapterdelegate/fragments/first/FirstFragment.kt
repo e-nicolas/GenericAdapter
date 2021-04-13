@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +39,7 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupSearchView()
     }
 
     /**
@@ -46,6 +48,14 @@ class FirstFragment : Fragment() {
     private fun setupRecyclerView() {
         viewModel.adapter.delegate = recyclerDelegate
         binding.recyclerView.adapter = viewModel.adapter
+        viewModel.adapter.items = viewModel.list
+    }
+
+    /**
+     * Setup SearchView
+     */
+    private fun setupSearchView() {
+        binding.searchView.setOnQueryTextListener(searchViewListener)
     }
 
     /**
@@ -79,9 +89,9 @@ class FirstFragment : Fragment() {
 
         }
 
-        override fun numberOfRows(adapter: GenericRecyclerAdapter): Int {
-            return viewModel.list.size
-        }
+//        override fun numberOfRows(adapter: GenericRecyclerAdapter): Int {
+//            return viewModel.list.size
+//        }
 
         override fun registerHeaderFor(adapter: GenericRecyclerAdapter): AdapterHolderType? {
             return null
@@ -89,6 +99,25 @@ class FirstFragment : Fragment() {
 
         override fun viewForHeaderAt(section: Int, cell: RecyclerView.ViewHolder, adapter: GenericRecyclerAdapter) {
 
+        }
+    }
+
+    /**
+     * SearchView Listener
+     */
+    private val searchViewListener = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            var list = viewModel.originalList.filter {
+                it.toString() == newText
+            }.toMutableList()
+            if(newText.isNullOrBlank()) { list = viewModel.originalList }
+            viewModel.list = list
+            viewModel.adapter.items = viewModel.list
+            return true
         }
     }
 }

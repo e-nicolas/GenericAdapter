@@ -1,0 +1,3 @@
+include ':genericadapter'
+include ':app'
+rootProject.name = "GenericAdapter"

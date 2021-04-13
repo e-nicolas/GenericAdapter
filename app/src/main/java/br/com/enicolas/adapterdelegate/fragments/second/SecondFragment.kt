@@ -1,0 +1,115 @@
+package br.com.enicolas.adapterdelegate.fragments.second
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
+import br.com.enicolas.adapterdelegate.R
+import br.com.enicolas.adapterdelegate.cells.FirstCell
+import br.com.enicolas.adapterdelegate.cells.HeaderCell
+import br.com.enicolas.adapterdelegate.cells.SecondCell
+import br.com.enicolas.adapterdelegate.databinding.CellFirstBinding
+import br.com.enicolas.adapterdelegate.databinding.CellHeaderBinding
+import br.com.enicolas.adapterdelegate.databinding.CellSecondBinding
+import br.com.enicolas.adapterdelegate.databinding.FragmentSecondBinding
+import br.com.enicolas.genericadapter.*
+import br.com.enicolas.genericadapter.sections.GenericRecyclerSections
+
+class SecondFragment : Fragment() {
+
+    private var _binding: FragmentSecondBinding? = null
+    private val binding: FragmentSecondBinding
+    get() {
+        return _binding!!
+    }
+
+    private val viewModel: SecondViewModel by viewModels()
+
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentSecondBinding.inflate(inflater)
+        return _binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+    }
+
+    /**
+     * Setup recycler view
+     */
+    private fun setupRecyclerView() {
+        viewModel.genericSections.delegate = recyclerDelegate
+        binding.recyclerView.adapter = viewModel.genericSections.adapter
+    }
+
+    /**
+     * RecyclerView Delegate
+     */
+    private val recyclerDelegate = object : GenericRecyclerSections.Delegate {
+
+        override fun numberOfSections(): Int {
+            return viewModel.sections.size
+        }
+
+        override fun numberOfRowsInSection(section: Int): Int {
+            return viewModel.sections[section].list.size
+        }
+
+        override fun cellForRowAt(indexPath: IndexPath, cell: RecyclerView.ViewHolder) {
+            val sectionModel = viewModel.sections[indexPath.section]
+            val list = sectionModel.list[indexPath.row]
+            val text = getString(R.string.itemString, list.toString())
+            when(indexPath.section) {
+                0 -> {
+                    (cell as? FirstCell)?.binding?.textView?.text = text
+                }
+                1 -> {
+                    (cell as? SecondCell)?.binding?.textView?.text = text
+                }
+            }
+        }
+
+        override fun registerCellAt(indexPath: IndexPath): AdapterHolderType {
+            return when(indexPath.section) {
+                0 -> {
+                    AdapterHolderType(
+                        viewBinding = CellFirstBinding::class.java,
+                        clazz =  FirstCell::class.java,
+                        reuseIdentifier = 0
+                    )
+                }
+                else -> {
+                    AdapterHolderType(
+                        viewBinding = CellSecondBinding::class.java,
+                        clazz =  SecondCell::class.java,
+                        reuseIdentifier = 1
+                    )
+                }
+            }
+        }
+
+        override fun registerHeaderForSection(section: Int): AdapterHolderType {
+            return AdapterHolderType(
+                viewBinding = CellHeaderBinding::class.java,
+                clazz =  HeaderCell::class.java,
+                reuseIdentifier = 2
+            )
+        }
+
+        override fun viewForHeaderInSection(section: Int, header: RecyclerView.ViewHolder) {
+            println("OIE: ${viewModel.sections[section].title}")
+            (header as? HeaderCell)?.binding?.textView?.text = viewModel.sections[section].title
+        }
+
+        override fun didSelectRowAt(indexPath: IndexPath) {
+
+        }
+    }
+}

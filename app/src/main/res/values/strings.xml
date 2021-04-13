@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GenericAdapter</string>
+    <string name="itemString">Item %s</string>
+</resources>

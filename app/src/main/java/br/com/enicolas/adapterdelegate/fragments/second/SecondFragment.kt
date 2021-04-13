@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ import br.com.enicolas.adapterdelegate.databinding.CellSecondBinding
 import br.com.enicolas.adapterdelegate.databinding.FragmentSecondBinding
 import br.com.enicolas.genericadapter.*
 import br.com.enicolas.genericadapter.sections.GenericRecyclerSections
+import br.com.enicolas.genericadapter.sections.SectionDelegate
 
 class SecondFragment : Fragment() {
 
@@ -52,7 +54,7 @@ class SecondFragment : Fragment() {
     /**
      * RecyclerView Delegate
      */
-    private val recyclerDelegate = object : GenericRecyclerSections.Delegate {
+    private val recyclerDelegate = object : SectionDelegate {
 
         override fun numberOfSections(): Int {
             return viewModel.sections.size
@@ -104,12 +106,15 @@ class SecondFragment : Fragment() {
         }
 
         override fun viewForHeaderInSection(section: Int, header: RecyclerView.ViewHolder) {
-            println("OIE: ${viewModel.sections[section].title}")
             (header as? HeaderCell)?.binding?.textView?.text = viewModel.sections[section].title
         }
 
         override fun didSelectRowAt(indexPath: IndexPath) {
-
+            Toast.makeText(
+                context,
+                "Section: ${indexPath.section}, Row: ${indexPath.row}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }

@@ -49,8 +49,8 @@ open class GenericRecyclerAdapter: RecyclerView.Adapter<BaseCell>() {
 			cell.setSelection(selectedItem == newPosition)
 			delegate?.cellForPosition(adapter = this, cell = cell, position = newPosition)
 
-			cell.onClick = { index ->
-				delegate?.didSelectItemAtIndex(adapter = this, index = index)
+			cell.onClick = {
+				delegate?.didSelectItemAtIndex(adapter = this, index = newPosition)
 			}
 		}
 	}

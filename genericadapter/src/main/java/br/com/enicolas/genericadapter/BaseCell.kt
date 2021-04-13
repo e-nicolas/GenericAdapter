@@ -17,8 +17,8 @@ open class BaseCell private constructor(view: View?, viewBinding: ViewBinding?):
 	var onClick: ((Int) -> Unit)? = null
 
     init {
-		view?.setOnClickListener {
-            val index = adapterPosition
+		this.view?.setOnClickListener {
+            val index = absoluteAdapterPosition
             if (index != RecyclerView.NO_POSITION) {
                 onClick?.invoke(index)
             }

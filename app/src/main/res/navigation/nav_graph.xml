@@ -7,11 +7,11 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="br.com.enicolas.adapterdelegate.fragments.first.FirstFragment"
+        android:name="io.github.enicolas.adapterdelegate.fragments.first.FirstFragment"
         tools:layout="@layout/fragment_first"/>
 
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="br.com.enicolas.adapterdelegate.fragments.second.SecondFragment"
+        android:name="io.github.enicolas.adapterdelegate.fragments.second.SecondFragment"
         tools:layout="@layout/fragment_second"/>
 </navigation>

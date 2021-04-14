@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import br.com.enicolas.adapterdelegate.R
 import br.com.enicolas.adapterdelegate.cells.FirstCell
@@ -19,6 +20,7 @@ import br.com.enicolas.adapterdelegate.databinding.CellSecondBinding
 import br.com.enicolas.adapterdelegate.databinding.FragmentSecondBinding
 import br.com.enicolas.genericadapter.AdapterHolderType
 import br.com.enicolas.genericadapter.IndexPath
+import br.com.enicolas.genericadapter.helpers.SwipeTouchCallback
 import br.com.enicolas.genericadapter.sections.GenericRecyclerSections
 import br.com.enicolas.genericadapter.sections.SectionDelegate
 
@@ -54,6 +56,12 @@ class SecondFragment : Fragment() {
         genericSections.delegate = recyclerDelegate
         binding.recyclerView.adapter = genericSections.adapter
         genericSections.reloadData()
+        val touchCallback = SwipeTouchCallback()
+        touchCallback.didSwipeItemAt = {
+            println("Swipe em: ${genericSections.getRelativePosition(it)}")
+        }
+        val itemTouchHelper = ItemTouchHelper(touchCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
     }
 
     /**

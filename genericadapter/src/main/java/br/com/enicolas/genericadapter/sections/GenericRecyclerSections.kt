@@ -112,4 +112,38 @@ open class GenericRecyclerSections {
     fun adapterForPosition(position: Int): GenericRecyclerAdapter {
         return adapter.adapters[position] as GenericRecyclerAdapter
     }
+
+    /**
+     * Based on absolute position returns the section of the item position
+     */
+    fun getSectionFor(position: Int): Int {
+        val numberOfSections = delegate?.numberOfSections() ?: 1
+        var rowCount = 0
+        for(section in 0 until numberOfSections) {
+            val adapter = adapterForPosition(section)
+            rowCount += adapter.itemCount
+            if(position < rowCount) {
+                return section
+            }
+        }
+        return 0
+    }
+
+    /**
+     * Transform the absolute position to the position of the item inside the adapter
+     */
+    fun getRelativePosition(position: Int): Int {
+        val numberOfSections = delegate?.numberOfSections() ?: 1
+        var cumulativeRowCount = 0
+        for(section in 0 until numberOfSections) {
+            val adapter = adapterForPosition(section)
+            val currentItemsCount = adapter.itemCount
+            cumulativeRowCount += currentItemsCount
+            if(position < cumulativeRowCount) {
+                val relativePosition = position - (cumulativeRowCount - currentItemsCount)
+                return adapter.getNormalizedPosition(relativePosition)
+            }
+        }
+        return 0
+    }
 }

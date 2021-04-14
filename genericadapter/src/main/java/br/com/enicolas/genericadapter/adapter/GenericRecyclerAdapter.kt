@@ -125,14 +125,14 @@ open class GenericRecyclerAdapter(snapshot: Snapshot? = null) : RecyclerView.Ada
     /**
      * THe header position sum
      */
-    protected fun getIndexOffset(): Int {
+    private fun getIndexOffset(): Int {
         return if (hasHeader()) 1 else 0
     }
 
     /**
      * Get the position with the header offset
      */
-    private fun getNormalizedPosition(position: Int): Int {
+    fun getNormalizedPosition(position: Int): Int {
         return position - getIndexOffset()
     }
 

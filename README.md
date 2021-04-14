@@ -24,7 +24,7 @@ allprojects {
 ```
 Step 2. Add the dependency
 ```groovy
-'com.github.e-nicolas:GenericAdapter:v.1.0'
+'com.github.e-nicolas:GenericAdapter:v.1.0.1'
 ```
 
 #### Manual

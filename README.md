@@ -2,6 +2,14 @@
 
 GenericAdapter is an easy way to implement RecyclerView adapters with more flexibility.
 
+## Features
+- [x] LayoutRes or binding support
+- [x] Multiples viewTypes inside adapter
+- [x] Automatic DiffUtil
+- [x] Header support 
+- [x] Multiples sections support
+- [ ] Footer support
+
 ## Installation
 
 #### Gradle
@@ -133,13 +141,28 @@ private val recyclerDelegate = object : SectionDelegate {
 }
 ```
 
+### Using Diff
+Create your adapter with Snapshot()
+```kotlin
+val adapter = GenericRecyclerSections(Snapshot())
+adapter.delegate = recyclerDelegate
+recyclerView.adapter = adapter
+// First list state
+adapter.snapshot?.updateSnapshot(viewModel.list)
+// Change list
+viewModel.list.removeFirst()
+// When list changed call it again
+adapter.snapshot?.updateSnapshot(viewModel.list)
+
+```
+
 ## Contributions
 Please contribute! I will gladly review any pull requests.
 
 ## License
 
 ```
-Copyright 2020 Waseef Akhtar.
+Copyright 2021 Emmanouil Nicolas.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

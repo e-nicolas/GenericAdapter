@@ -13,8 +13,18 @@ GenericAdapter is an easy way to implement RecyclerView adapters with more flexi
 ## Installation
 
 #### Gradle
+Step 1. Add it in your root build.gradle at the end of repositories:
 ```groovy
-implementation "io.github.e-nicolas.genericadapter:1.0.0"
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+Step 2. Add the dependency
+```groovy
+'com.github.e-nicolas:GenericAdapter:v.1.0'
 ```
 
 #### Manual

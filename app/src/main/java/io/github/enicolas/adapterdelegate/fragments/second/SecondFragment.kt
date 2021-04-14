@@ -58,7 +58,7 @@ class SecondFragment : Fragment() {
         genericSections.reloadData()
         val touchCallback = SwipeTouchCallback()
         touchCallback.didSwipeItemAt = {
-            println("Swipe em: ${genericSections.getRelativePosition(it)}")
+//            val swipePosition = genericSections.getRelativePosition(it)
         }
         val itemTouchHelper = ItemTouchHelper(touchCallback)
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)

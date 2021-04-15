@@ -6,7 +6,7 @@ import io.github.enicolas.genericadapter.AdapterHolderType
 import io.github.enicolas.genericadapter.IndexPath
 import io.github.enicolas.genericadapter.adapter.GenericRecyclerAdapter
 import io.github.enicolas.genericadapter.adapter.GenericRecylerAdapterDelegate
-import io.github.enicolas.genericadapter.diffable.Snapshot
+import io.github.enicolas.genericadapter.diffable.SnapshotDefault
 
 open class GenericRecyclerSections {
 
@@ -53,7 +53,7 @@ open class GenericRecyclerSections {
      * Create a [GenericRecyclerAdapter] based on section
      */
     private fun createAdapterFor(section: Int): GenericRecyclerAdapter {
-        val genericAdapter = GenericRecyclerAdapter(Snapshot())
+        val genericAdapter = GenericRecyclerAdapter(SnapshotDefault())
         genericAdapter.tag = section
         genericAdapter.delegate = adapterDelegate
         return genericAdapter

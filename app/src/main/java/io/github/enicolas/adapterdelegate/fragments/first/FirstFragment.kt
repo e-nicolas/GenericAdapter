@@ -18,7 +18,6 @@ import io.github.enicolas.adapterdelegate.databinding.FragmentFirstBinding
 import io.github.enicolas.genericadapter.AdapterHolderType
 import io.github.enicolas.genericadapter.adapter.GenericRecyclerAdapter
 import io.github.enicolas.genericadapter.adapter.GenericRecylerAdapterDelegate
-import io.github.enicolas.genericadapter.diffable.CustomSnapshot
 import io.github.enicolas.genericadapter.diffable.Snapshot
 
 class FirstFragment : Fragment() {
@@ -41,7 +40,7 @@ class FirstFragment : Fragment() {
 
     private val adapter = GenericRecyclerAdapter(
 //        snapshot = Snapshot()
-        snapshot = CustomSnapshot(customDiffCallback = customCallback)
+        snapshot = Snapshot(diffCallback = customCallback)
     )
 
     override fun onCreateView(
@@ -65,7 +64,7 @@ class FirstFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter.delegate = recyclerDelegate
         binding.recyclerView.adapter = adapter
-        adapter.snapshot?.updateSnapshot(viewModel.list)
+        adapter.snapshot?.snapshotList = viewModel.list
     }
 
     /**
@@ -106,7 +105,7 @@ class FirstFragment : Fragment() {
         }
 
         override fun numberOfRows(adapter: GenericRecyclerAdapter): Int {
-            return this@FirstFragment.adapter.snapshot?.getCurrentList() ?: viewModel.list.size
+            return adapter.snapshot?.snapshotList?.size ?: viewModel.list.size
         }
 
         override fun registerHeaderFor(adapter: GenericRecyclerAdapter): AdapterHolderType? {
@@ -131,7 +130,7 @@ class FirstFragment : Fragment() {
             }.toMutableList()
             if (newText.isNullOrBlank()) { list = viewModel.originalList }
             viewModel.list = list
-            adapter.snapshot?.updateSnapshot(viewModel.list)
+            adapter.snapshot?.snapshotList = viewModel.list
             return true
         }
     }

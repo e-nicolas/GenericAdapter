@@ -6,18 +6,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import io.github.enicolas.genericadapter.AdapterHolderType
-import io.github.enicolas.genericadapter.diffable.Snapshot
+import io.github.enicolas.genericadapter.diffable.SnapshotCore
 
-open class GenericRecyclerAdapter(snapshot: Snapshot? = null) : RecyclerView.Adapter<BaseCell>() {
+open class GenericRecyclerAdapter(snapshot: SnapshotCore? = null) : RecyclerView.Adapter<BaseCell>() {
 
     /**
      * Variables
      */
-    var snapshot: Snapshot? = null
-    set(value) {
-        field = value
-        snapshot?.adapter = this
-    }
+    var snapshot: SnapshotCore? = null
+        set(value) {
+            field = value
+            snapshot?.adapter = this
+        }
 
     private var _selectedItem = RecyclerView.NO_POSITION
     val selectedItem: Int
@@ -56,7 +56,6 @@ open class GenericRecyclerAdapter(snapshot: Snapshot? = null) : RecyclerView.Ada
                 return adapterHolderType.clazz.getDeclaredConstructor(View::class.java)
                     .newInstance(LayoutInflater.from(parent.context).inflate(resId, parent, false))
             }
-
         }
 
         throw Error("You need to implement GenericRecyclerAdapterDelegate!")
@@ -110,16 +109,16 @@ open class GenericRecyclerAdapter(snapshot: Snapshot? = null) : RecyclerView.Ada
      * Gets the inflater
      */
     protected fun getViewBinding(
-		parent: ViewGroup,
-		viewBindingClazz: Class<out ViewBinding>
-	): ViewBinding {
+        parent: ViewGroup,
+        viewBindingClazz: Class<out ViewBinding>
+    ): ViewBinding {
         val inflater = LayoutInflater.from(parent.context)
         return viewBindingClazz.getMethod(
-			"inflate",
-			LayoutInflater::class.java,
-			ViewGroup::class.java,
-			Boolean::class.java
-		).invoke(null, inflater, parent, false) as ViewBinding
+            "inflate",
+            LayoutInflater::class.java,
+            ViewGroup::class.java,
+            Boolean::class.java
+        ).invoke(null, inflater, parent, false) as ViewBinding
     }
 
     /**

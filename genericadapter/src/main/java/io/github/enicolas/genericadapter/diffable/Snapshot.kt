@@ -1,19 +1,16 @@
 package io.github.enicolas.genericadapter.diffable
 
-import androidx.recyclerview.widget.DiffUtil
-import io.github.enicolas.genericadapter.adapter.GenericRecyclerAdapter
+import androidx.recyclerview.widget.AsyncListDiffer
 
-class Snapshot {
-    var adapter: GenericRecyclerAdapter? = null
-    private var snapshot: List<Any> = listOf()
+class Snapshot : SnapshotCore() {
 
     @Suppress("UNCHECKED_CAST")
-    fun updateSnapshot(value: List<Any>) {
+    override fun updateSnapshot(value: List<Any>) {
         adapter?.let { adapter ->
-            val diffCallback = DiffCallback(snapshot, value)
-            val result = DiffUtil.calculateDiff(diffCallback)
-            snapshot = value
-            result.dispatchUpdatesTo(adapter)
+            if (differ == null)
+                this.differ = AsyncListDiffer(adapter, DiffCallback())
+            (differ as AsyncListDiffer<Any>).submitList(value)
+            snapshot = differ?.currentList ?: value
         } ?: run {
             snapshot = value
         }

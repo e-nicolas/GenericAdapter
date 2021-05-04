@@ -34,8 +34,6 @@ class SectionDiffCallback : DiffUtil.Callback() {
         val oldAdapter = oldList[oldItemPosition]
         val newAdapter = newList[newItemPosition]
         if (oldAdapter.tag == newAdapter.tag) {
-            println("OLD: ${oldListItemCount[oldItemPosition]}")
-            println("NEW: ${newAdapter.itemCount}")
             return oldListItemCount[oldItemPosition] == newAdapter.itemCount
         }
         return false

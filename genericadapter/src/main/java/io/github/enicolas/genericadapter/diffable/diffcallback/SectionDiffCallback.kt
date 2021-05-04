@@ -27,7 +27,7 @@ class SectionDiffCallback : DiffUtil.Callback() {
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList.getOrNull(oldItemPosition)?.tag == newList.getOrNull(oldItemPosition)?.tag
+        return oldList.getOrNull(oldItemPosition)?.tag == newList.getOrNull(newItemPosition)?.tag
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

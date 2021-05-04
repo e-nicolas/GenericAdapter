@@ -1,4 +1,4 @@
-package io.github.enicolas.genericadapter.diffable
+package io.github.enicolas.genericadapter.diffable.diffcallback
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil

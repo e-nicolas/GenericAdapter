@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 class Snapshot<T>(
     private val diffCallback: DiffUtil.ItemCallback<T>
 ) : SnapshotCore() {
+
     @Suppress("UNCHECKED_CAST")
     override var snapshotList: List<Any> = listOf()
         get() {

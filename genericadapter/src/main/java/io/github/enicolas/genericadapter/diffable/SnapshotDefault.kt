@@ -1,6 +1,7 @@
 package io.github.enicolas.genericadapter.diffable
 
 import androidx.recyclerview.widget.AsyncListDiffer
+import io.github.enicolas.genericadapter.diffable.diffcallback.DiffCallback
 
 class SnapshotDefault : SnapshotCore() {
 

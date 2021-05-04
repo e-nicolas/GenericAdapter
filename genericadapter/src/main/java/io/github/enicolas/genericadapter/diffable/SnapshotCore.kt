@@ -1,6 +1,8 @@
 package io.github.enicolas.genericadapter.diffable
 
 import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.RecyclerView
+import io.github.enicolas.genericadapter.adapter.BaseCell
 import io.github.enicolas.genericadapter.adapter.GenericRecyclerAdapter
 
 /**
@@ -10,7 +12,7 @@ import io.github.enicolas.genericadapter.adapter.GenericRecyclerAdapter
  *  differ - The [AsyncListDiffer] that process the diff
  */
 abstract class SnapshotCore {
-    var adapter: GenericRecyclerAdapter? = null
+    var adapter: RecyclerView.Adapter<BaseCell>? = null
     abstract var snapshotList: List<Any>
     internal var differ: AsyncListDiffer<*>? = null
 }

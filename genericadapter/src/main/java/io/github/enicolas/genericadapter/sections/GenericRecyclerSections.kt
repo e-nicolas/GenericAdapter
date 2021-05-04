@@ -1,11 +1,12 @@
 package io.github.enicolas.genericadapter.sections
 
-import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import io.github.enicolas.genericadapter.AdapterHolderType
 import io.github.enicolas.genericadapter.IndexPath
 import io.github.enicolas.genericadapter.adapter.GenericRecyclerAdapter
 import io.github.enicolas.genericadapter.adapter.GenericRecylerAdapterDelegate
+import io.github.enicolas.genericadapter.diffable.SectionSnapshot
+import io.github.enicolas.genericadapter.diffable.SnapshotCore
 import io.github.enicolas.genericadapter.diffable.SnapshotDefault
 
 open class GenericRecyclerSections {
@@ -22,11 +23,15 @@ open class GenericRecyclerSections {
         private set
 
     /**
+     * Snapshot
+     */
+    var snapshot: SectionSnapshot = SectionSnapshot(adapter)
+
+    /**
      * Recreate the [ConcatAdapter] and set the recyclerView adapter to the new one
      */
     fun reloadData() {
-        removeAllAdapters()
-        createAdapters()
+        snapshot.snapshotList = createNewAdapters()
     }
 
     /**
@@ -36,6 +41,8 @@ open class GenericRecyclerSections {
         adapter.adapters.forEach {
             adapter.removeAdapter(it)
         }
+
+        snapshot.snapshotList = listOf()
     }
 
     /**
@@ -45,8 +52,18 @@ open class GenericRecyclerSections {
     private fun createAdapters() {
         val numberOfSections = delegate?.numberOfSections() ?: 1
         for (section in 0 until numberOfSections) {
-            adapter.addAdapter(createAdapterFor(section = section))
+            val genericAdapter = createAdapterFor(section = section)
+            adapter.addAdapter(genericAdapter)
         }
+    }
+
+    private fun createNewAdapters() : List<GenericRecyclerAdapter> {
+        val adapters = arrayListOf<GenericRecyclerAdapter>()
+        val numberOfSections = delegate?.numberOfSections() ?: 1
+        for (section in 0 until numberOfSections) {
+            adapters.add(createAdapterFor(section = section))
+        }
+        return adapters
     }
 
     /**
@@ -64,29 +81,29 @@ open class GenericRecyclerSections {
      */
     private val adapterDelegate = object : GenericRecylerAdapterDelegate {
         override fun cellForPosition(
-			adapter: GenericRecyclerAdapter,
-			cell: RecyclerView.ViewHolder,
-			position: Int
-		) {
+            adapter: GenericRecyclerAdapter,
+            cell: RecyclerView.ViewHolder,
+            position: Int
+        ) {
             delegate?.cellForRowAt(
-				indexPath = IndexPath(section = adapter.tag, row = position),
-				cell = cell
-			)
+                indexPath = IndexPath(section = adapter.tag, row = position),
+                cell = cell
+            )
         }
 
         override fun registerCellAtPosition(
-			adapter: GenericRecyclerAdapter,
-			position: Int
-		): AdapterHolderType? {
+            adapter: GenericRecyclerAdapter,
+            position: Int
+        ): AdapterHolderType? {
             return delegate?.registerCellAt(
-				indexPath = IndexPath(section = adapter.tag, row = position)
-			)
+                indexPath = IndexPath(section = adapter.tag, row = position)
+            )
         }
 
         override fun didSelectItemAtIndex(adapter: GenericRecyclerAdapter, index: Int) {
             delegate?.didSelectRowAt(
-				indexPath = IndexPath(section = adapter.tag, row = index)
-			)
+                indexPath = IndexPath(section = adapter.tag, row = index)
+            )
         }
 
         override fun numberOfRows(adapter: GenericRecyclerAdapter): Int {
@@ -98,10 +115,10 @@ open class GenericRecyclerSections {
         }
 
         override fun viewForHeaderAt(
-			position: Int,
-			cell: RecyclerView.ViewHolder,
-			adapter: GenericRecyclerAdapter
-		) {
+            position: Int,
+            cell: RecyclerView.ViewHolder,
+            adapter: GenericRecyclerAdapter
+        ) {
             delegate?.viewForHeaderInSection(section = adapter.tag, header = cell)
         }
     }
@@ -119,10 +136,10 @@ open class GenericRecyclerSections {
     fun getSectionFor(position: Int): Int {
         val numberOfSections = delegate?.numberOfSections() ?: 1
         var rowCount = 0
-        for(section in 0 until numberOfSections) {
+        for (section in 0 until numberOfSections) {
             val adapter = adapterForPosition(section)
             rowCount += adapter.itemCount
-            if(position < rowCount) {
+            if (position < rowCount) {
                 return section
             }
         }
@@ -135,11 +152,11 @@ open class GenericRecyclerSections {
     fun getRelativePosition(position: Int): Int {
         val numberOfSections = delegate?.numberOfSections() ?: 1
         var cumulativeRowCount = 0
-        for(section in 0 until numberOfSections) {
+        for (section in 0 until numberOfSections) {
             val adapter = adapterForPosition(section)
             val currentItemsCount = adapter.itemCount
             cumulativeRowCount += currentItemsCount
-            if(position < cumulativeRowCount) {
+            if (position < cumulativeRowCount) {
                 val relativePosition = position - (cumulativeRowCount - currentItemsCount)
                 return adapter.getNormalizedPosition(relativePosition)
             }

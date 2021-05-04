@@ -88,32 +88,26 @@ class SecondFragment : Fragment() {
             val sectionModel = viewModel.sections[indexPath.section]
             val list = sectionModel.list[indexPath.row]
             val text = getString(R.string.itemString, list.toString())
-            when (indexPath.section) {
-                0 -> {
-                    (cell as? FirstCell)?.binding?.textView?.text = text
-                }
-                1 -> {
-                    (cell as? SecondCell)?.binding?.textView?.text = text
-                }
+            if(indexPath.section % 2 == 0) {
+                (cell as? FirstCell)?.binding?.textView?.text = text
+            } else {
+                (cell as? SecondCell)?.binding?.textView?.text = text
             }
         }
 
         override fun registerCellAt(indexPath: IndexPath): AdapterHolderType {
-            return when (indexPath.section) {
-                0 -> {
-                    AdapterHolderType(
-                        viewBinding = CellFirstBinding::class.java,
-                        clazz = FirstCell::class.java,
-                        reuseIdentifier = 0
-                    )
-                }
-                else -> {
-                    AdapterHolderType(
-                        viewBinding = CellSecondBinding::class.java,
-                        clazz = SecondCell::class.java,
-                        reuseIdentifier = 1
-                    )
-                }
+            return if(indexPath.section % 2 == 0) {
+                AdapterHolderType(
+                    viewBinding = CellFirstBinding::class.java,
+                    clazz = FirstCell::class.java,
+                    reuseIdentifier = 0
+                )
+            } else {
+                AdapterHolderType(
+                    viewBinding = CellSecondBinding::class.java,
+                    clazz = SecondCell::class.java,
+                    reuseIdentifier = 1
+                )
             }
         }
 
@@ -153,14 +147,16 @@ class SecondFragment : Fragment() {
                     if(newText.isNullOrBlank())
                         section.list
                     else
-                        originalList.filter { it.toString() == newText }
+                        originalList.filter { it.toString().contains(newText) }
 
                 SectionModel(
                     title = section.title,
                     list = filteredList
                 )
             }.filter { it.list.isNotEmpty() }.toMutableList()
-            genericSections.reloadData()
+            binding.recyclerView.post {
+                genericSections.reloadData()
+            }
             return true
         }
     }

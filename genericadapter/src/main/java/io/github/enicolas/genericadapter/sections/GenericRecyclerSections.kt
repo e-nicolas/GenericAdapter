@@ -1,12 +1,12 @@
 package io.github.enicolas.genericadapter.sections
 
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.RecyclerView
 import io.github.enicolas.genericadapter.AdapterHolderType
 import io.github.enicolas.genericadapter.IndexPath
 import io.github.enicolas.genericadapter.adapter.GenericRecyclerAdapter
 import io.github.enicolas.genericadapter.adapter.GenericRecylerAdapterDelegate
 import io.github.enicolas.genericadapter.diffable.SectionSnapshot
-import io.github.enicolas.genericadapter.diffable.SnapshotCore
 import io.github.enicolas.genericadapter.diffable.SnapshotDefault
 
 open class GenericRecyclerSections {
@@ -25,39 +25,20 @@ open class GenericRecyclerSections {
     /**
      * Snapshot
      */
-    var snapshot: SectionSnapshot = SectionSnapshot(adapter)
+    private var snapshot: SectionSnapshot = SectionSnapshot(adapter)
 
     /**
      * Recreate the [ConcatAdapter] and set the recyclerView adapter to the new one
      */
     fun reloadData() {
-        snapshot.snapshotList = createNewAdapters()
-    }
-
-    /**
-     * Remove all adapters from [ConcatAdapter]
-     */
-    private fun removeAllAdapters() {
-        adapter.adapters.forEach {
-            adapter.removeAdapter(it)
-        }
-
-        snapshot.snapshotList = listOf()
+        snapshot.snapshotList = createAdapters()
     }
 
     /**
      * Create x number of [GenericRecyclerAdapter] based on
      * numberOfSections delegate
      */
-    private fun createAdapters() {
-        val numberOfSections = delegate?.numberOfSections() ?: 1
-        for (section in 0 until numberOfSections) {
-            val genericAdapter = createAdapterFor(section = section)
-            adapter.addAdapter(genericAdapter)
-        }
-    }
-
-    private fun createNewAdapters() : List<GenericRecyclerAdapter> {
+    private fun createAdapters() : List<GenericRecyclerAdapter> {
         val adapters = arrayListOf<GenericRecyclerAdapter>()
         val numberOfSections = delegate?.numberOfSections() ?: 1
         for (section in 0 until numberOfSections) {

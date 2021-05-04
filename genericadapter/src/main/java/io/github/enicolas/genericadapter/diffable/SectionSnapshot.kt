@@ -62,10 +62,7 @@ class SectionSnapshot(
         override fun onChanged(position: Int, count: Int, payload: Any?) {
 //            println("onChanged: ${position} and count: ${count}")
             for (i in 0 until count) {
-                (snapshotList[position + i] as? GenericRecyclerAdapter)?.let {
-                    println(concatAdapter.removeAdapter(concatAdapter.adapters[position + i]))
-                    concatAdapter.addAdapter(position + i, it)
-                }
+                concatAdapter.adapters.getOrNull(position + i)?.notifyDataSetChanged()
             }
         }
     }

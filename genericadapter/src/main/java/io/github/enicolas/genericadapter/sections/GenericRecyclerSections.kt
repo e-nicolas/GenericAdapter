@@ -29,8 +29,10 @@ open class GenericRecyclerSections {
 
     /**
      * Recreate the [ConcatAdapter] and set the recyclerView adapter to the new one
+     * @param forceUpdate: Force reload sections
      */
-    fun reloadData() {
+    fun reloadData(forceUpdate: Boolean = false) {
+        if(forceUpdate) { snapshot.snapshotList = listOf() }
         snapshot.snapshotList = createAdapters()
     }
 

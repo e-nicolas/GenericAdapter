@@ -8,7 +8,8 @@ import androidx.viewbinding.ViewBinding
 import io.github.enicolas.genericadapter.AdapterHolderType
 import io.github.enicolas.genericadapter.diffable.SnapshotCore
 
-open class GenericRecyclerAdapter(snapshot: SnapshotCore? = null) : RecyclerView.Adapter<BaseCell>() {
+open class GenericRecyclerAdapter(snapshot: SnapshotCore? = null) :
+    RecyclerView.Adapter<BaseCell>() {
 
     /**
      * Variables
@@ -68,13 +69,19 @@ open class GenericRecyclerAdapter(snapshot: SnapshotCore? = null) : RecyclerView
         if (isHeaderPosition(position)) {
             delegate?.viewForHeaderAt(position, cell, this)
         } else {
-            val newPosition = getNormalizedPosition(position)
             cell.prepareForReuse()
             cell.setSelection(selectedItem == newPosition)
-            delegate?.cellForPosition(adapter = this, cell = cell, position = newPosition)
+            delegate?.cellForPosition(
+                adapter = this,
+                cell = cell,
+                position = getNormalizedPosition(position)
+            )
 
-            cell.onClick = {
-                delegate?.didSelectItemAtIndex(adapter = this, index = newPosition)
+            cell.onClick = { selectedIndex ->
+                delegate?.didSelectItemAtIndex(
+                    adapter = this,
+                    index = getNormalizedPosition(selectedIndex)
+                )
             }
         }
     }

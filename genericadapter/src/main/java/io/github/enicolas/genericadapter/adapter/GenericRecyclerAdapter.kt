@@ -69,12 +69,13 @@ open class GenericRecyclerAdapter(snapshot: SnapshotCore? = null) :
         if (isHeaderPosition(position)) {
             delegate?.viewForHeaderAt(position, cell, this)
         } else {
+            val newPosition = getNormalizedPosition(position)
             cell.prepareForReuse()
             cell.setSelection(selectedItem == newPosition)
             delegate?.cellForPosition(
                 adapter = this,
                 cell = cell,
-                position = getNormalizedPosition(position)
+                position = newPosition
             )
 
             cell.onClick = { selectedIndex ->
